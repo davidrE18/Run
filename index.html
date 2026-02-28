@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RUN ANYWAY — Clima para runners (CO)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">🏃‍♂️</div>
+        <div>
+          <h1>RUN ANYWAY</h1>
+          <p class="subtitle">No negociamos con el clima. Ajustamos la capa correcta.</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="field">
+          <label for="cityInput">Ciudad (Colombia)</label>
+          <input id="cityInput" type="text" placeholder="Ej: Bogotá, Medellín, Cali…" autocomplete="off" />
+          <div id="suggestions" class="suggestions hidden"></div>
+        </div>
+
+        <div class="field">
+          <label for="timeSelect">Hora sugerida</label>
+          <select id="timeSelect">
+            <option value="now">Ahora</option>
+            <option value="plus1">En 1 hora</option>
+            <option value="plus2">En 2 horas</option>
+            <option value="6am">6:00 AM</option>
+            <option value="6pm">6:00 PM</option>
+          </select>
+        </div>
+
+        <button id="btnRefresh" class="btn primary">Actualizar</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Run Score -->
+      <section class="card span-4">
+        <div class="card-head">
+          <h2>Run Score</h2>
+          <span id="pillStatus" class="pill">—</span>
+        </div>
+
+        <div class="gauge-wrap">
+          <div class="gauge">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+              <circle id="gaugeArc" class="gauge-arc" cx="60" cy="60" r="50"></circle>
+            </svg>
+            <div class="gauge-text">
+              <div id="scoreValue" class="score">--</div>
+              <div class="score-label">/ 100</div>
+            </div>
+          </div>
+
+          <div class="cta">
+            <div id="ctaTitle" class="cta-title">Sal a correr.</div>
+            <div id="ctaLine" class="cta-line">Cargando pronóstico…</div>
+          </div>
+        </div>
+
+        <div class="chips" id="nowChips"></div>
+      </section>
+
+      <!-- Outfit -->
+      <section class="card span-4">
+        <div class="card-head">
+          <h2>Outfit Generator</h2>
+          <span class="muted" id="summaryLine">—</span>
+        </div>
+
+        <div id="outfitList" class="outfit"></div>
+
+        <div class="mini-note" id="outfitNote"></div>
+      </section>
+
+      <!-- Plan -->
+      <section class="card span-4">
+        <div class="card-head">
+          <h2>Plan</h2>
+          <span class="muted" id="windowLine">Ventana ideal: —</span>
+        </div>
+
+        <div class="plan">
+          <div class="plan-row">
+            <div class="k">Sesión recomendada</div>
+            <div class="v" id="sessionLine">—</div>
+          </div>
+          <div class="plan-row">
+            <div class="k">Objetivo</div>
+            <div class="v" id="goalLine">—</div>
+          </div>
+          <div class="plan-row">
+            <div class="k">Regla</div>
+            <div class="v"><b>Sal a correr</b> incluso si llueve / truena. Solo cambia capas.</div>
+          </div>
+
+          <div class="btn-row">
+            <button id="btnRunMode" class="btn primary">Iniciar Run Mode</button>
+            <button id="btnFeedback" class="btn">Registrar feedback</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hourly chart -->
+      <section class="card span-12">
+        <div class="card-head">
+          <h2>Pronóstico por hora (próximas 12h)</h2>
+          <span class="muted">Temp (línea) + precip (barras) + prob (línea punteada)</span>
+        </div>
+
+        <div class="chart-wrap">
+          <canvas id="chart" width="1100" height="320"></canvas>
+          <div id="tooltip" class="tooltip hidden"></div>
+        </div>
+      </section>
+
+      <!-- Accuracy / History -->
+      <section class="card span-12">
+        <div class="card-head">
+          <h2>Mi precisión</h2>
+          <span class="muted" id="accuracyKpi">Precisión promedio (últimas 10): —</span>
+        </div>
+        <div id="history" class="history"></div>
+      </section>
+    </main>
+
+    <!-- Feedback modal -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Feedback">
+      <div class="modal-card">
+        <div class="modal-head">
+          <h3>¿Qué tan acertado estuvo el pronóstico?</h3>
+          <button id="btnClose" class="icon-btn" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <label>Temperatura</label>
+            <select id="fbTemp">
+              <option value="colder">Más fría</option>
+              <option value="accurate" selected>Igual</option>
+              <option value="hotter">Más caliente</option>
+            </select>
+          </div>
+          <div class="row">
+            <label>Lluvia</label>
+            <select id="fbRain">
+              <option value="none">No llovió</option>
+              <option value="drizzle">Llovizna</option>
+              <option value="rain">Lluvia</option>
+            </select>
+          </div>
+          <div class="row">
+            <label>Viento</label>
+            <select id="fbWind">
+              <option value="low">Bajo</option>
+              <option value="mid" selected>Medio</option>
+              <option value="high">Fuerte</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <label>Precisión general (0–100)</label>
+            <input id="fbScore" type="range" min="0" max="100" value="80" />
+            <div class="range-val"><span id="fbScoreVal">80</span>/100</div>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <button id="btnSaveFb" class="btn primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Run Mode overlay -->
+    <div id="runMode" class="runmode hidden">
+      <div class="runmode-inner">
+        <div class="rm-top">
+          <div>
+            <div class="rm-title">RUN MODE</div>
+            <div class="rm-sub" id="rmCity">—</div>
+          </div>
+          <button id="btnExitRun" class="btn">Salir</button>
+        </div>
+
+        <div class="rm-kpis">
+          <div class="rm-kpi"><div class="k">Tiempo</div><div id="rmTime" class="v">00:00</div></div>
+          <div class="rm-kpi"><div class="k">Clima ahora</div><div id="rmNow" class="v">—</div></div>
+          <div class="rm-kpi"><div class="k">Mensaje</div><div id="rmMsg" class="v">Sal a correr.</div></div>
+        </div>
+
+        <div class="rm-actions">
+          <button id="btnToggleLock" class="btn primary">Mantener pantalla encendida</button>
+          <button id="btnStopRun" class="btn">Terminar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
