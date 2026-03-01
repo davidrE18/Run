@@ -37,15 +37,30 @@
 
         <button id="btnRefresh" class="btn primary">Actualizar</button>
       </div>
+
+
+        
     </header>
 
+    <div class="hello-box">
+      <div class="card-head">
+        <h2>El clima no cancela. Tú decides</h2>
+      </div>
+      <p>Cada mañana, millones de corredores en Colombia enfrentan la misma pregunta antes de amarrarse los tenis: ¿salgo o me quedo?
+      El problema no es la lluvia. El problema es la incertidumbre. Con esta herramienta, te damos un pronóstico claro y una estrategia para correr en cualquier clima.
+      </p>
+    </div>
+
+    
     <main class="grid">
       <!-- Run Score -->
       <section class="card span-4">
         <div class="card-head">
-          <h2>Run Score</h2>
+          <h2>Puntuación de carrera</h2>
           <span id="pillStatus" class="pill">—</span>
         </div>
+
+        <p style="margin:10; color:var(--muted); font-size:14px;">Aca podrás observar las estadísticas básicas de tu carrera, así como las predicciones metereológicas de acuerdo a tu ubicación </p>
 
         <div class="gauge-wrap">
           <div class="gauge">
@@ -71,9 +86,11 @@
       <!-- Outfit -->
       <section class="card span-4">
         <div class="card-head">
-          <h2>Outfit Generator</h2>
+          <h2>Ropa adecuada</h2>
           <span class="muted" id="summaryLine">—</span>
         </div>
+
+        <p style="margin:10; color:var(--muted); font-size:14px;">Aca podrás observar las recomendaciones de ropa y accesorios para tu carrera </p>
 
         <div id="outfitList" class="outfit"></div>
 
@@ -87,6 +104,9 @@
           <span class="muted" id="windowLine">Ventana ideal: —</span>
         </div>
 
+        <p style="margin:10; color:var(--muted); font-size:14px;">Aca podrás tener una recomendación para tu sesión de entrenamiento</p>
+
+      
         <div class="plan">
           <div class="plan-row">
             <div class="k">Sesión recomendada</div>
@@ -102,7 +122,7 @@
           </div>
 
           <div class="btn-row">
-            <button id="btnRunMode" class="btn primary">Iniciar Run Mode</button>
+            <button id="btnRunMode" class="btn primary">Iniciar Modo Carrera</button>
             <button id="btnFeedback" class="btn">Registrar feedback</button>
           </div>
         </div>
@@ -111,7 +131,7 @@
       <!-- Hourly chart -->
       <section class="card span-12">
         <div class="card-head">
-          <h2>Pronóstico por hora (próximas 12h)</h2>
+          <h2>Pronóstico del clima por hora (próximas 12h)</h2>
           <span class="muted">Temp (línea) + precip (barras) + prob (línea punteada)</span>
         </div>
 
@@ -183,7 +203,7 @@
       <div class="runmode-inner">
         <div class="rm-top">
           <div>
-            <div class="rm-title">RUN MODE</div>
+            <div class="rm-title">Modo Carrera</div>
             <div class="rm-sub" id="rmCity">—</div>
           </div>
           <button id="btnExitRun" class="btn">Salir</button>

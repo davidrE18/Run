@@ -255,3 +255,18 @@ canvas{ width:100%; height:auto; border-radius:14px; border:1px solid var(--line
   .history{ grid-template-columns: 1fr; }
   .rm-kpis{ grid-template-columns: 1fr; }
 }
+
+.hello-box {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,.03));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  margin: 16px 0 0;
+}
+
+.hello-box p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
