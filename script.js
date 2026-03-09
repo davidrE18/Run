@@ -170,7 +170,7 @@ function outfitRules({tFeels, pProb, pMm, wind, code}){
 
   // Rain
   if ((pProb >= 40) || (pMm >= 0.2) || [61,63,65,80,81,82,95,96,99].includes(code)){
-    items.push({icon:"🌧️", title:"Impermeable liviano + visera", desc:"Grips en suela, evita charcos."});
+    items.push({icon:"🌧️", title:"Impermeable liviano + Gorra", desc:"Grips en suela, evita charcos."});
     if (pMm >= 1.5 || [95,96,99].includes(code)){
       items.push({icon:"✨", title:"Reflectivo", desc:"Visibilidad y seguridad primero."});
     }
@@ -286,7 +286,7 @@ function setPlan(plan, bestWindow){
 
 function setOutfitNote(now){
   let note = "Tip: calienta 5–7 min suave y termina con 3 min caminando.";
-  if (now.pProb >= 40) note = "Tip lluvia: visera + impermeable liviano. Elige ruta con buen drenaje.";
+  if (now.pProb >= 40) note = "Tip lluvia: Gorra + impermeable liviano. Elige ruta con buen drenaje.";
   if (now.wind >= 25) note = "Tip viento: ida contra viento suave, vuelve a favor. Mantén cadencia.";
   el("outfitNote").textContent = note;
 }
@@ -633,4 +633,5 @@ renderHistory();
 refresh().catch(err => {
   console.error(err);
   el("ctaLine").textContent = "Error cargando clima. Reintenta.";
+
 });
