@@ -161,7 +161,7 @@ function outfitRules({tFeels, pProb, pMm, wind, code}){
   }else if (tFeels >= 18){
     items.push({icon:"👕", title:"Camiseta técnica", desc:"Shorts o tights ligeros."});
   }else if (tFeels >= 12){
-    items.push({icon:"🧥", title:"Manga larga ligera", desc:"O camiseta + windbreaker fino."});
+    items.push({icon:"🧥", title:"Manga larga ligera", desc:"O camiseta + corta vientos."});
   }else if (tFeels >= 7){
     items.push({icon:"🧥", title:"Capa base + chaqueta ligera", desc:"Tights recomendados."});
   }else{
@@ -177,7 +177,7 @@ function outfitRules({tFeels, pProb, pMm, wind, code}){
   }
 
   // Wind
-  if (wind >= 20) items.push({icon:"💨", title:"Windbreaker", desc:"Corta el viento sin sobrecalentar."});
+  if (wind >= 20) items.push({icon:"💨", title:"Corta Vientos", desc:"Corta el viento sin sobrecalentar."});
   if (wind >= 35) items.push({icon:"🧣", title:"Buff", desc:"Protege cuello y respira mejor con ráfagas."});
 
   // Always: go run
@@ -635,3 +635,4 @@ refresh().catch(err => {
   el("ctaLine").textContent = "Error cargando clima. Reintenta.";
 
 });
+
